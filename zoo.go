@@ -19,6 +19,10 @@ type Zookeeper struct {
     Captured int
 }
 
+func (zook Zookeeper) Catch(animal Animal) {
+    fmt.Printf("%s catch, animal %s.\n", zook.Name, animal.Name)
+}
+
 func main() {
     monkey := Animal{Name: "monkey"}
     tiger := Animal{Name: "tiger"}
@@ -40,8 +44,12 @@ func main() {
     fmt.Printf("Age: %d\n", zookeeper.Age)
     fmt.Printf("Number of cages: %d\n", len(zookeeper.Cages))
 
+    animal := Animal{Name: "lion"}
+
+    zookeeper.Catch(animal)
 
     zookeeper.Captured = 4
+
 
     fmt.Printf("\nNumber of captured animals: %d\n", zookeeper.Captured)
 }
