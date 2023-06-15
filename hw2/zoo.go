@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 type Animal struct {
-    Name  string
+    Name string
 }
 
 type Cage struct {
@@ -13,14 +13,22 @@ type Cage struct {
 }
 
 type Zookeeper struct {
-    Name    string
-    Age     int
-    Cages   []Cage
+    Name     string
+    Age      int
+    Cages    []Cage
     Captured int
 }
 
-func (zook Zookeeper) Catch(animal Animal) {
-    fmt.Printf("%s catch, animal %s.\n", zook.Name, animal.Name)
+func (zook *Zookeeper) Catch(animal Animal) {
+    for i := 0; i < len(zook.Cages); i++ {
+        if zook.Cages[i].Animal.Name == "" {
+            zook.Cages[i].Animal = animal
+            zook.Captured++
+            fmt.Printf("%s caught a %s and placed it in Cage %d.\n", zook.Name, animal.Name, zook.Cages[i].Number)
+            return
+        }
+    }
+    fmt.Println("No empty cages available.")
 }
 
 func main() {
@@ -28,7 +36,7 @@ func main() {
     tiger := Animal{Name: "tiger"}
     elephant := Animal{Name: "elephant"}
     giraffe := Animal{Name: "giraffe"}
-    zebra := Animal{Name: "Zebra"}
+    zebra := Animal{Name: ""}
 
     cage1 := Cage{Number: 1, Capacity: 1, Animal: monkey}
     cage2 := Cage{Number: 2, Capacity: 1, Animal: tiger}
@@ -48,8 +56,5 @@ func main() {
 
     zookeeper.Catch(animal)
 
-    zookeeper.Captured = 4
-
-
-    fmt.Printf("\nNumber of captured animals: %d\n", zookeeper.Captured)
+    fmt.Printf("Number of captured animals: %d\n", zookeeper.Captured)
 }
